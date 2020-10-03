@@ -18,13 +18,16 @@ public class Shooting : MonoBehaviour
     public int magazines = 10;
     public int magSize = 25;
 
-
+    private float fixedDeltatime;
 
     Vector2 directionAtStartOfClick;
     Vector2 directionAtEndOfClick;
 
 
-
+    private void Awake()
+    {
+        fixedDeltatime = Time.fixedDeltaTime;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -41,7 +44,7 @@ public class Shooting : MonoBehaviour
             {
                 directionAtEndOfClick = transform.up;
                 float angleDeviation = GetAngle(directionAtStartOfClick, directionAtEndOfClick);
-                Shoot(angleDeviation);
+                Shoot(-angleDeviation);
             }
             else
             {
@@ -62,6 +65,16 @@ public class Shooting : MonoBehaviour
                 Debug.Log("out of mags");
             }
 
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Time.timeScale = 0.12f;
+            Time.fixedDeltaTime = Time.timeScale * fixedDeltatime;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            Time.timeScale = 1.0f;
+            Time.fixedDeltaTime = Time.timeScale * fixedDeltatime;
         }
     }
 
