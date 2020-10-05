@@ -11,7 +11,7 @@ public class NewEnemyAI : MonoBehaviour
 
     public float speed = 200f;
     public float nextWayPointDistance = 3f;
-    
+    public float rotationalSpeed = 20f;
     
     
     Path path;
@@ -70,7 +70,9 @@ public class NewEnemyAI : MonoBehaviour
         Vector2 direction = ((Vector2) path.vectorPath[currentWayPoint] - rb.position).normalized;
         Vector2 force = direction * speed * Time.fixedDeltaTime;
 
+
         rb.AddForce(force);
+        rb.AddTorque(Vector2.SignedAngle(rb.transform.up, direction) * rotationalSpeed * Time.fixedDeltaTime);
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWayPoint]);
         if (distance < nextWayPointDistance)
